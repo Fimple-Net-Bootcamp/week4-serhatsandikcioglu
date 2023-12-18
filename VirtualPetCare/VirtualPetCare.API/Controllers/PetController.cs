@@ -28,7 +28,18 @@ namespace VirtualPetCare.API.Controllers
             bool petExist = _petService.IsExist(petId);
             if (petExist)
             {
-                PetDTO petDTO = _petService.GetById(petId);
+                PetDTO petDTO = _petService.GetById(petId, false);
+                return Ok(petDTO);
+            }
+            return NotFound();
+        }
+        [HttpGet("statistics/{petId}")]
+        public IActionResult GetByIdRelational(int petId)
+        {
+            bool petExist = _petService.IsExist(petId);
+            if (petExist)
+            {
+                PetDTO petDTO = _petService.GetById(petId, true);
                 return Ok(petDTO);
             }
             return NotFound();

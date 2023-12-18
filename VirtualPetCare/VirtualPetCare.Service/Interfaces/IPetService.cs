@@ -11,7 +11,7 @@ namespace VirtualPetCare.Service.Interfaces
     public interface IPetService
     {
         public List<PetDTO> GetAll(string? sort, int page, int size);
-        PetDTO GetById(int id);
+        PetDTO GetById(int id, bool relational);
         public PetDTO Add(PetCreateDTO petCreateDTO);
         void Update(int id , PetUpdateDTO petUpdateDTO);
         bool IsExist(int id);

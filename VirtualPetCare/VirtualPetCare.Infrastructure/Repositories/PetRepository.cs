@@ -54,13 +54,13 @@ namespace VirtualPetCare.Infrastructure.Repositories
             return query.ToList();
         }
 
-        public Pet GetById(int id,bool relational = false)
+        public Pet GetById(int id,bool relational)
         {
             if (relational)
             {
                 return _dbSet.Include(x => x.Foods).Include(x => x.HealthCondition).Include(x => x.Activities).Where(x => x.Id == id).FirstOrDefault();
             }
-           return _dbSet.Include(x=>x.Foods).Where(x=>x.Id == id).FirstOrDefault();
+           return _dbSet.Where(x=>x.Id == id).FirstOrDefault();
         }
 
         public void Update(Pet pet)

@@ -28,7 +28,7 @@ namespace VirtualPetCare.Service
 
         public FoodDTO Add(int petId , FoodCreateDTO foodCreateDTO)
         {
-            Pet pet = _petRepository.GetById(petId);
+            Pet pet = _petRepository.GetById(petId, false);
             Food food = _mapper.Map<Food>(foodCreateDTO);
                 pet.Foods.Add(food);
             _foodRepository.Add(food);

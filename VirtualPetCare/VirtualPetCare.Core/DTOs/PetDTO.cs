@@ -14,5 +14,7 @@ namespace VirtualPetCare.Core.DTOs
         public int Age { get; set; }
         public int UserId { get; set; }
         public List<FoodDTO> Foods { get; set; }
+        public List<ActivityDTO> Activities { get; set; }
+        public HealthConditionDTO HealthCondition { get; set; }
     }
 }
