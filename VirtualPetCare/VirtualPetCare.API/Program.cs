@@ -26,6 +26,8 @@ builder.Services.AddScoped<IHealthConditionRepository, HealthConditionRepository
 builder.Services.AddScoped<IHealthConditionService, HealthConditionService>();
 builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<IPetService, PetService>();
+builder.Services.AddScoped<ITrainingRepository, TrainingRepository>();
+builder.Services.AddScoped<ITrainingService, TrainingService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
