@@ -36,21 +36,6 @@ namespace VirtualPetCare.Infrastructure.Migrations
                     b.ToTable("FoodPet");
                 });
 
-            modelBuilder.Entity("PetSocialInteraction", b =>
-                {
-                    b.Property<int>("PetsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SocialInteractionsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("PetsId", "SocialInteractionsId");
-
-                    b.HasIndex("SocialInteractionsId");
-
-                    b.ToTable("PetSocialInteraction");
-                });
-
             modelBuilder.Entity("VirtualPetCare.Core.Entities.Activity", b =>
                 {
                     b.Property<int>("Id")
@@ -138,45 +123,6 @@ namespace VirtualPetCare.Infrastructure.Migrations
                     b.ToTable("Pets");
                 });
 
-            modelBuilder.Entity("VirtualPetCare.Core.Entities.SocialInteraction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SocialInteraction");
-                });
-
-            modelBuilder.Entity("VirtualPetCare.Core.Entities.Training", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("PetId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PetId");
-
-                    b.ToTable("Training");
-                });
-
             modelBuilder.Entity("VirtualPetCare.Core.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -209,21 +155,6 @@ namespace VirtualPetCare.Infrastructure.Migrations
                     b.HasOne("VirtualPetCare.Core.Entities.Pet", null)
                         .WithMany()
                         .HasForeignKey("PetsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PetSocialInteraction", b =>
-                {
-                    b.HasOne("VirtualPetCare.Core.Entities.Pet", null)
-                        .WithMany()
-                        .HasForeignKey("PetsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VirtualPetCare.Core.Entities.SocialInteraction", null)
-                        .WithMany()
-                        .HasForeignKey("SocialInteractionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -261,25 +192,12 @@ namespace VirtualPetCare.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("VirtualPetCare.Core.Entities.Training", b =>
-                {
-                    b.HasOne("VirtualPetCare.Core.Entities.Pet", "Pet")
-                        .WithMany("Training")
-                        .HasForeignKey("PetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pet");
-                });
-
             modelBuilder.Entity("VirtualPetCare.Core.Entities.Pet", b =>
                 {
                     b.Navigation("Activities");
 
                     b.Navigation("HealthCondition")
                         .IsRequired();
-
-                    b.Navigation("Training");
                 });
 
             modelBuilder.Entity("VirtualPetCare.Core.Entities.User", b =>

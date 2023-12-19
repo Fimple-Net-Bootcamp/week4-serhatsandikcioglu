@@ -16,7 +16,5 @@ namespace VirtualPetCare.Core.Entities
         public HealthCondition HealthCondition { get; set; }
         public List<Activity> Activities { get; set; }
         public List<Food> Foods { get; set; }
-        public List<Training> Training { get; set; }
-        public List<SocialInteraction> SocialInteractions { get; set; }
     }
 }
