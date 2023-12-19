@@ -28,9 +28,5 @@ namespace VirtualPetCare.Infrastructure.Repositories
         {
            return _dbSet.Find(id);
         }
-        public List<Pet> GetAllPetById(int id)
-        {
-            return _dbSet.Where(x => x.Id == id).SelectMany(x => x.Pets).Include(x=>x.Activities).Include(x=>x.Foods).Include(x=>x.HealthCondition).ToList();
-        }
     }
 }

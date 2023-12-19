@@ -12,6 +12,5 @@ namespace VirtualPetCare.Service.Interfaces
     {
         UserDTO Add(UserCreateDTO userCreateDTO);
         UserDTO GetById(int id);
-        List<PetDTO> GetAllPetById(int id);
     }
 }

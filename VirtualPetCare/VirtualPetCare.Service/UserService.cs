@@ -39,11 +39,5 @@ namespace VirtualPetCare.Service
             UserDTO userDTO = _mapper.Map<UserDTO>(user);
             return userDTO;
         }
-        public List<PetDTO> GetAllPetById(int id)
-        {
-           List<Pet> pets = _userRepository.GetAllPetById(id);
-            List<PetDTO> petDTOs = _mapper.Map<List<PetDTO>>(pets);
-            return petDTOs;
-        }
     }
 }
