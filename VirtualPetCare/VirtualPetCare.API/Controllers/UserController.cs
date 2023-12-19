@@ -31,5 +31,11 @@ namespace VirtualPetCare.API.Controllers
             UserDTO userDTO = _userService.Add(userCreateDTO);
             return CreatedAtAction(nameof(GetById), new { userId = userDTO.Id }, userDTO);
         }
+        [HttpGet("statistics/{userId}")]
+        public IActionResult GetAllPetById(int userId)
+        {
+            List<PetDTO> petDTOs =  _userService.GetAllPetById(userId);
+            return Ok(petDTOs);
+        }
     }
 }
