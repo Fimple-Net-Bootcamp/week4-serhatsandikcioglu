@@ -13,4 +13,6 @@ public class AppDbContext : DbContext
     public DbSet<HealthCondition> HealthConditions { get; set; }
     public DbSet<Pet> Pets { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Training> Trainings { get; set; }
+    public DbSet<SocialInteraction> SocialInteractions { get; set; }
 }
