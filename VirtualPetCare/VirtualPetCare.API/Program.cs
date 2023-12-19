@@ -28,6 +28,8 @@ builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<IPetService, PetService>();
 builder.Services.AddScoped<ITrainingRepository, TrainingRepository>();
 builder.Services.AddScoped<ITrainingService, TrainingService>();
+builder.Services.AddScoped<ISocialInteractionRepository, SocialInteractionRepository>();
+builder.Services.AddScoped<ISocialInteractionService, SocialInteractionService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {

@@ -71,5 +71,9 @@ namespace VirtualPetCare.Infrastructure.Repositories
         {
            return _dbSet.Any(x => x.Id == id);
         }
+        public List<SocialInteraction> GetSocialInteractions(int petId)
+        {
+           return _dbSet.Where(x => x.Id == petId).Include(x => x.SocialInteractions).Select(x => x.SocialInteractions).SingleOrDefault();
+        }
     }
 }

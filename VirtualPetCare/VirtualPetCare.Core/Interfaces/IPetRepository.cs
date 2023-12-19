@@ -15,6 +15,7 @@ namespace VirtualPetCare.Core.Interfaces
         void Add(Pet pet);
         void Update(Pet pet);
         bool IsExist(int id);
+        List<SocialInteraction> GetSocialInteractions(int petId);
 
     }
 }

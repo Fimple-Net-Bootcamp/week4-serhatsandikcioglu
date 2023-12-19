@@ -27,6 +27,8 @@ namespace VirtualPetCare.Core.Mapper
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<Training, TrainingCreateDTO>().ReverseMap();
             CreateMap<Training, TrainingDTO>().ReverseMap();
+            CreateMap<SocialInteraction, SocialInteractionDTO>().ReverseMap();
+            CreateMap<SocialInteraction, SocialInteractionCreateDTO>().ReverseMap();
         }
     }
 }
