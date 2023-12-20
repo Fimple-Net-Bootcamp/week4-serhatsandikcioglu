@@ -11,5 +11,7 @@ namespace VirtualPetCare.Core.Interfaces
     {
         void Add(User user);
         User GetById(int id);
+        List<Pet> GetPetsById(int id);
+        bool IsExist(int id);
     }
 }

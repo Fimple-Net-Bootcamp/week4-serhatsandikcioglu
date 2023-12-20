@@ -7,7 +7,7 @@ namespace VirtualPetCare.API.Controllers
 {
     [Route("api/users")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : CustomBaseController
     {
         private readonly IUserService _userService;
 
@@ -16,20 +16,19 @@ namespace VirtualPetCare.API.Controllers
             _userService = userService;
         }
         [HttpGet("{userId}")]
-        public IActionResult GetById(int userId)
+        public async Task<ActionResult<UserDTO>> GetById(int userId)
         {
-            var user = _userService.GetById(userId);
-            if (user != null)
-            {
-                return Ok(user);
-            }
-            return NotFound();
+            return CreateActionResultInstance(await _userService.GetById(userId));
         }
         [HttpPost]
-        public IActionResult Create([FromBody] UserCreateDTO userCreateDTO)
+        public async Task<ActionResult<UserDTO>> Create([FromBody] UserCreateDTO userCreateDTO)
         {
-            UserDTO userDTO = _userService.Add(userCreateDTO);
-            return CreatedAtAction(nameof(GetById), new { userId = userDTO.Id }, userDTO);
+            return CreateActionResultInstance(await _userService.Add(userCreateDTO));
+        }
+        [HttpGet("statistics/{userId}")]
+        public async Task<ActionResult<List<PetDTO>>> GetPetsById(int userId)
+        {
+            return CreateActionResultInstance(await _userService.GetPetsById(userId));
         }
     }
 }
