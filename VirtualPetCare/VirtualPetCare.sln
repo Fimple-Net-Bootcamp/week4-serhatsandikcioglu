@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualPetCare.API", "Virtu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualPetCare.Core", "VirtualPetCare.Core\VirtualPetCare.Core.csproj", "{F14AAB0F-669E-4137-BC15-1DE1F66E2F47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualPetCare.Infrastructure", "VirtualPetCare.Infrastructure\VirtualPetCare.Infrastructure.csproj", "{A2B10451-3F4D-421B-8279-463B871D7CDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualPetCare.Infrastructure", "VirtualPetCare.Infrastructure\VirtualPetCare.Infrastructure.csproj", "{A2B10451-3F4D-421B-8279-463B871D7CDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualPetCare.Service", "VirtualPetCare.Service\VirtualPetCare.Service.csproj", "{71CFD356-3891-4C24-95A4-77C833D2B97C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualPetCare.Service", "VirtualPetCare.Service\VirtualPetCare.Service.csproj", "{71CFD356-3891-4C24-95A4-77C833D2B97C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualPetCare.Shared", "VirtualPetCare.Shared\VirtualPetCare.Shared.csproj", "{34F748F7-C1DB-49E9-A9DD-BC92F085E2C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{71CFD356-3891-4C24-95A4-77C833D2B97C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71CFD356-3891-4C24-95A4-77C833D2B97C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71CFD356-3891-4C24-95A4-77C833D2B97C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34F748F7-C1DB-49E9-A9DD-BC92F085E2C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34F748F7-C1DB-49E9-A9DD-BC92F085E2C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34F748F7-C1DB-49E9-A9DD-BC92F085E2C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34F748F7-C1DB-49E9-A9DD-BC92F085E2C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Text.Json.Serialization;
+using VirtualPetCare.Shared.DTOs;
 
-
-namespace VirtualPetCare.Service.CustomResponse
+namespace VirtualPetCare.Shared.Model
 {
     public record CustomResponse<T>
     {

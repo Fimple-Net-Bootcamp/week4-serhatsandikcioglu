@@ -5,15 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using VirtualPetCare.Core.DTOs;
 using VirtualPetCare.Core.Entities;
+using VirtualPetCare.Shared.Model;
 
 namespace VirtualPetCare.Service.Interfaces
 {
     public interface IPetService
     {
-        public List<PetDTO> GetAll(string? sort, int page, int size);
-        PetDTO GetById(int id, bool relational);
-        public PetDTO Add(PetCreateDTO petCreateDTO);
-        void Update(int id , PetUpdateDTO petUpdateDTO);
+        Task<CustomResponse<List<PetDTO>>> GetAll(string? sort, int page, int size);
+        Task<CustomResponse<PetDTO>> GetById(int id, bool relational);
+        Task<CustomResponse<PetDTO>> Add(PetCreateDTO petCreateDTO);
+        Task<CustomResponse<NoContent>> Update(int id, PetUpdateDTO petUpdateDTO);
         bool IsExist(int id);
     }
 }

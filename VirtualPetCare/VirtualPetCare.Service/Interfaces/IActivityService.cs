@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VirtualPetCare.Core.DTOs;
-using VirtualPetCare.Service.CustomResponse;
+using VirtualPetCare.Shared.Model;
 
 namespace VirtualPetCare.Service.Interfaces
 {

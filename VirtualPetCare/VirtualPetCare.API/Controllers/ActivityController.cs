@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using VirtualPetCare.Core.DTOs;
 using VirtualPetCare.Service;
-using VirtualPetCare.Service.CustomResponse;
 using VirtualPetCare.Service.Interfaces;
+using VirtualPetCare.Shared.Model;
 
 namespace VirtualPetCare.API.Controllers
 {

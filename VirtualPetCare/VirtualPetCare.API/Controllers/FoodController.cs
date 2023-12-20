@@ -3,38 +3,31 @@ using Microsoft.AspNetCore.Mvc;
 using VirtualPetCare.Core.DTOs;
 using VirtualPetCare.Service;
 using VirtualPetCare.Service.Interfaces;
+using VirtualPetCare.Shared.Model;
 
 namespace VirtualPetCare.API.Controllers
 {
     [Route("api/foods")]
     [ApiController]
-    public class FoodController : ControllerBase
+    public class FoodController : CustomBaseController
     {
         private readonly IFoodService _foodService;
-        private readonly IPetService _petService;
 
-        public FoodController(IFoodService foodService, IPetService petService)
+        public FoodController(IFoodService foodService)
         {
             _foodService = foodService;
-            _petService = petService;
         }
 
         [HttpGet]
-        public IActionResult GetAll([FromQuery] string? sort, int page = 1, int size = 10)
+        public async Task<ActionResult<CustomResponse<FoodDTO>>> GetAll([FromQuery] string? sort, int page = 1, int size = 10)
         {
-            List<FoodDTO> foodDTOs = _foodService.GetAll(sort, page, size);
-            return Ok(foodDTOs);
+            return CreateActionResultInstance(await _foodService.GetAll(sort,page,size));
         }
         [HttpPost("{petId}")]
-        public IActionResult Create(int petId, [FromBody] FoodCreateDTO foodCreateDTO)
+        public async Task<ActionResult<CustomResponse<FoodDTO>>> Create(int petId, [FromBody] FoodCreateDTO foodCreateDTO)
         {
-            bool petExist = _petService.IsExist(petId);
-            if (petExist)
-            {
-            FoodDTO foodDTO = _foodService.Add(petId ,foodCreateDTO);
-            return StatusCode(201,foodDTO);
-            }
-            return NotFound();
+
+            return CreateActionResultInstance(await _foodService.Add(petId,foodCreateDTO));
         }
     }
 }

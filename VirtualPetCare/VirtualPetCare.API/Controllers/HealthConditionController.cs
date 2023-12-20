@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Numerics;
@@ -11,7 +12,7 @@ namespace VirtualPetCare.API.Controllers
 {
     [Route("api/healthconditions")]
     [ApiController]
-    public class HealthConditionController : ControllerBase
+    public class HealthConditionController : CustomBaseController
     {
         private readonly IHealthConditionService _healthConditionService;
 
@@ -20,26 +21,14 @@ namespace VirtualPetCare.API.Controllers
             _healthConditionService = healthConditionService;
         }
         [HttpPatch("{petId}")]
-        public IActionResult Patch(int petId, [FromBody] JsonPatchDocument<HealthCondition> patchDoc)
+        public async Task<ActionResult<NoContent>> Patch(int petId, [FromBody] JsonPatchDocument<HealthCondition> patchDoc)
         {
-            HealthConditionDTO healthConditionDTO = _healthConditionService.GetById(petId);
-            if (healthConditionDTO != null)
-            {
-                _healthConditionService.Patch(petId, patchDoc);
-                return Ok();
-            }
-            return NotFound();
+            return CreateActionResultInstance(await _healthConditionService.Patch(petId,patchDoc));
         }
         [HttpGet("{petId}")]
-        public IActionResult GetById(int petId)
+        public async Task<ActionResult<HealthConditionDTO>> GetById(int petId)
         {
-            HealthConditionDTO healthConditionDTO = _healthConditionService.GetById(petId);
-            if (healthConditionDTO != null)
-            {
-            return Ok(healthConditionDTO);
-
-            }
-            return NotFound();
+            return CreateActionResultInstance(await _healthConditionService.GetByPetId(petId));
         }
     }
 }

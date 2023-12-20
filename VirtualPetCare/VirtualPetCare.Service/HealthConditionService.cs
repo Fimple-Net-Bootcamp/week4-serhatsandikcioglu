@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ using VirtualPetCare.Core.DTOs;
 using VirtualPetCare.Core.Entities;
 using VirtualPetCare.Core.Interfaces;
 using VirtualPetCare.Service.Interfaces;
+using VirtualPetCare.Shared.Model;
 
 namespace VirtualPetCare.Service
 {
@@ -26,17 +29,23 @@ namespace VirtualPetCare.Service
             _mapper = mapper;
         }
 
-        public HealthConditionDTO GetById(int petId)
+        public async Task<CustomResponse<HealthConditionDTO>>  GetByPetId(int petId)
         {
-            HealthCondition healthCondition = _healthConditionRepository.GetById(petId);
+            HealthCondition healthCondition = _healthConditionRepository.GetByPetId(petId);
             HealthConditionDTO healthConditionDTO = _mapper.Map<HealthConditionDTO>(healthCondition);
-            return healthConditionDTO;
+            return CustomResponse<HealthConditionDTO>.Success(StatusCodes.Status200OK, healthConditionDTO);
         }
-        public void Patch(int id, JsonPatchDocument<HealthCondition> patchDoc)
+        public async Task<CustomResponse<NoContent>> Patch(int petId, JsonPatchDocument<HealthCondition> patchDoc)
         {
-            HealthCondition healthCondition = _healthConditionRepository.GetById(id);
+            HealthCondition healthCondition = _healthConditionRepository.GetByPetId(petId);
+            if (healthCondition == null)
+            {
+                return CustomResponse<NoContent>.Fail(StatusCodes.Status404NotFound, "Pet Not Found");
+            }
+            
             patchDoc.ApplyTo(healthCondition);
             _unitOfWork.SaveChanges();
+            return CustomResponse<NoContent>.Success(StatusCodes.Status200OK);
         }
     }
 }

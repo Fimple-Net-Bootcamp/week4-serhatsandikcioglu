@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using VirtualPetCare.Core.DTOs;
 using VirtualPetCare.Service.Interfaces;
@@ -7,7 +8,7 @@ namespace VirtualPetCare.API.Controllers
 {
     [Route("api/pets")]
     [ApiController]
-    public class PetController : ControllerBase
+    public class PetController : CustomBaseController
     {
         private readonly IPetService _petService;
 
@@ -17,49 +18,29 @@ namespace VirtualPetCare.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll([FromQuery] string? sort, int page = 1, int size = 10)
+        public async Task<ActionResult<PetDTO>> GetAll([FromQuery] string? sort, int page = 1, int size = 10)
         {
-            List<PetDTO> petDTOs = _petService.GetAll(sort, page, size);
-            return Ok(petDTOs);
+            return CreateActionResultInstance(await _petService.GetAll(sort, page, size));
         }
         [HttpGet("{petId}")]
-        public IActionResult GetById(int petId)
+        public async Task<ActionResult<PetDTO>> GetById(int petId)
         {
-            bool petExist = _petService.IsExist(petId);
-            if (petExist)
-            {
-                PetDTO petDTO = _petService.GetById(petId, false);
-                return Ok(petDTO);
-            }
-            return NotFound();
+            return CreateActionResultInstance(await _petService.GetById(petId,false));
         }
         [HttpGet("statistics/{petId}")]
-        public IActionResult GetByIdRelational(int petId)
+        public async Task<ActionResult<PetDTO>> GetByIdRelational(int petId)
         {
-            bool petExist = _petService.IsExist(petId);
-            if (petExist)
-            {
-                PetDTO petDTO = _petService.GetById(petId, true);
-                return Ok(petDTO);
-            }
-            return NotFound();
+            return CreateActionResultInstance(await _petService.GetById(petId,true));
         }
         [HttpPost]
-        public IActionResult Create([FromBody] PetCreateDTO petCreateDTO)
+        public async Task<ActionResult<PetDTO>> Create([FromBody] PetCreateDTO petCreateDTO)
         {
-            PetDTO petDTO = _petService.Add(petCreateDTO);
-            return CreatedAtAction(nameof(GetById), new { petId = petDTO.Id }, petDTO);
+            return CreateActionResultInstance(await _petService.Add(petCreateDTO));
         }
         [HttpPut("{petId}")]
-        public IActionResult Update(int petId, [FromBody] PetUpdateDTO petUpdateDTO)
+        public async Task<ActionResult<NoContent>> Update(int petId, [FromBody] PetUpdateDTO petUpdateDTO)
         {
-            bool petExist = _petService.IsExist(petId);
-            if (petExist)
-            {
-                _petService.Update(petId , petUpdateDTO);
-                return Ok();
-            }
-            return NotFound();
+            return CreateActionResultInstance(await _petService.Update(petId, petUpdateDTO));
         }
     }
 }

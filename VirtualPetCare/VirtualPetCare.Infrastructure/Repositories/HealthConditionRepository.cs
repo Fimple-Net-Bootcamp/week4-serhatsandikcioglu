@@ -19,7 +19,7 @@ namespace VirtualPetCare.Infrastructure.Repositories
             _dbSet = appDbContext.Set<HealthCondition>();
         }
 
-        public HealthCondition GetById(int petId)
+        public HealthCondition GetByPetId(int petId)
         {
             return _dbSet.Where(x => x.PetId == petId).FirstOrDefault();
         }

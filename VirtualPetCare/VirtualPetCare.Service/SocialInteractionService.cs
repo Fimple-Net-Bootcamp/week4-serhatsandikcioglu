@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,8 @@ using System.Threading.Tasks;
 using VirtualPetCare.Core.DTOs;
 using VirtualPetCare.Core.Entities;
 using VirtualPetCare.Core.Interfaces;
-using VirtualPetCare.Service.CustomResponse;
 using VirtualPetCare.Service.Interfaces;
+using VirtualPetCare.Shared.Model;
 
 namespace VirtualPetCare.Service
 {
@@ -19,17 +20,26 @@ namespace VirtualPetCare.Service
         private readonly IPetRepository _petRepository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidator<SocialInteractionCreateDTO> _validator;
 
-        public SocialInteractionService(ISocialInteractionRepository socialInteractionRepository, IMapper mapper, IUnitOfWork unitOfWork, IPetRepository petRepository)
+        public SocialInteractionService(ISocialInteractionRepository socialInteractionRepository, IMapper mapper, IUnitOfWork unitOfWork, IPetRepository petRepository, IValidator<SocialInteractionCreateDTO> validator)
         {
             _socialInteractionRepository = socialInteractionRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _petRepository = petRepository;
+            _validator = validator;
         }
 
         public async Task<CustomResponse<SocialInteractionDTO>> Create(SocialInteractionCreateDTO socialInteractionCreateDTO)
         {
+            var validateResult = _validator.Validate(socialInteractionCreateDTO);
+            var errorMesages = validateResult.Errors.Select(x => x.ErrorMessage).ToList();
+            var errorMesage = string.Join(",", errorMesages);
+            if (!validateResult.IsValid)
+            {
+                return CustomResponse<SocialInteractionDTO>.Fail(StatusCodes.Status400BadRequest, errorMesage);
+            }
             SocialInteraction socialInteraction = _mapper.Map<SocialInteraction>(socialInteractionCreateDTO);
             _socialInteractionRepository.Add(socialInteraction);
             _unitOfWork.SaveChanges();

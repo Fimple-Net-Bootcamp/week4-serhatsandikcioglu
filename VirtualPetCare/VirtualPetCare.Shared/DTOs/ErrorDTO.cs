@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 
 
-namespace VirtualPetCare.Core.DTOs.CustomResponse;
+namespace VirtualPetCare.Shared.DTOs;
 
 public class ErrorDTO
 {

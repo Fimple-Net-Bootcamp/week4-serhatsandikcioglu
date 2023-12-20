@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using VirtualPetCare.Core.DTOs;
 using VirtualPetCare.Core.Entities;
 using VirtualPetCare.Core.Interfaces;
-using VirtualPetCare.Service.CustomResponse;
 using VirtualPetCare.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Runtime.InteropServices;
+using FluentValidation;
+using VirtualPetCare.Shared.Model;
 
 namespace VirtualPetCare.Service
 {
@@ -20,16 +21,25 @@ namespace VirtualPetCare.Service
         private readonly IPetRepository _petRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ActivityService(IActivityRepository activityRepository, IMapper mapper, IUnitOfWork unitOfWork, IPetRepository petRepository)
+        private readonly IValidator<ActivityCreateDTO> _validator;
+        public ActivityService(IActivityRepository activityRepository, IMapper mapper, IUnitOfWork unitOfWork, IPetRepository petRepository, IValidator<ActivityCreateDTO> validator)
         {
             _activityRepository = activityRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _petRepository = petRepository;
+            _validator = validator;
         }
 
         public async Task<CustomResponse<ActivityDTO>> Add(ActivityCreateDTO activityCreateDTO)
         {
+            var validateResult = _validator.Validate(activityCreateDTO);
+            var errorMesages = validateResult.Errors.Select(x => x.ErrorMessage).ToList();
+            var errorMesage = string.Join(",", errorMesages);
+            if (!validateResult.IsValid)
+            {
+                return CustomResponse<ActivityDTO>.Fail(StatusCodes.Status400BadRequest, errorMesage);
+            }
             bool petExist = _petRepository.IsExist(activityCreateDTO.PetId);
             if (!petExist)
             {

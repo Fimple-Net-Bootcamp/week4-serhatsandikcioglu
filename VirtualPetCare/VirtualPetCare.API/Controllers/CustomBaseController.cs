@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using VirtualPetCare.Service.CustomResponse;
+using VirtualPetCare.Shared.Model;
 
 namespace VirtualPetCare.API.Controllers
 {

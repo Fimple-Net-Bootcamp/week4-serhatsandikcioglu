@@ -9,6 +9,6 @@ namespace VirtualPetCare.Core.Interfaces
 {
     public interface IHealthConditionRepository
     {
-        HealthCondition GetById(int petId);
+        HealthCondition GetByPetId(int petId);
     }
 }
