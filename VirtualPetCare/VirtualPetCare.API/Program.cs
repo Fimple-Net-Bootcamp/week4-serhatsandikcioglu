@@ -9,6 +9,7 @@ using VirtualPetCare.Infrastructure.Repositories;
 using VirtualPetCare.Service;
 using VirtualPetCare.Service.Interfaces;
 using VirtualPetCare.Service.Validator;
+using VirtualPetCare.Shared.MiddleWare;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
