@@ -1,10 +1,14 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using VirtualPetCare.API;
+using VirtualPetCare.Core.DTOs;
 using VirtualPetCare.Core.Interfaces;
 using VirtualPetCare.Core.Mapper;
 using VirtualPetCare.Infrastructure.Database;
 using VirtualPetCare.Infrastructure.Repositories;
 using VirtualPetCare.Service;
 using VirtualPetCare.Service.Interfaces;
+using VirtualPetCare.Service.Validator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,23 +18,7 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddAutoMapper(typeof(MapperProfile));
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
-builder.Services.AddScoped<IActivityService, ActivityService>();
-builder.Services.AddScoped<IFoodRepository, FoodRepository>();
-builder.Services.AddScoped<IFoodService, FoodService>();
-builder.Services.AddScoped<IHealthConditionRepository, HealthConditionRepository>();
-builder.Services.AddScoped<IHealthConditionService, HealthConditionService>();
-builder.Services.AddScoped<IPetRepository, PetRepository>();
-builder.Services.AddScoped<IPetService, PetService>();
-builder.Services.AddScoped<ITrainingRepository, TrainingRepository>();
-builder.Services.AddScoped<ITrainingService, TrainingService>();
-builder.Services.AddScoped<ISocialInteractionRepository, SocialInteractionRepository>();
-builder.Services.AddScoped<ISocialInteractionService, SocialInteractionService>();
-
+builder.Services.AddAplication();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
 
