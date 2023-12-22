@@ -15,6 +15,5 @@ namespace VirtualPetCare.Service.Interfaces
         Task<CustomResponse<PetDTO>> GetById(int id, bool relational);
         Task<CustomResponse<PetDTO>> Add(PetCreateDTO petCreateDTO);
         Task<CustomResponse<NoContent>> Update(int id, PetUpdateDTO petUpdateDTO);
-        bool IsExist(int id);
     }
 }

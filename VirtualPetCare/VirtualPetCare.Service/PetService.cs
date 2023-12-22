@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using VirtualPetCare.Core.DTOs;
@@ -18,18 +19,20 @@ namespace VirtualPetCare.Service
     public class PetService : IPetService
     {
         private readonly IPetRepository _petRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IValidator<PetCreateDTO> _createValidator;
         private readonly IValidator<PetUpdateDTO> _updateValidator;
 
-        public PetService(IPetRepository petRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<PetCreateDTO> createValidator, IValidator<PetUpdateDTO> updateValidator)
+        public PetService(IPetRepository petRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<PetCreateDTO> createValidator, IValidator<PetUpdateDTO> updateValidator, IUserRepository userRepository)
         {
             _petRepository = petRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _createValidator = createValidator;
             _updateValidator = updateValidator;
+            _userRepository = userRepository;
         }
 
         public async Task<CustomResponse<PetDTO>> Add(PetCreateDTO petCreateDTO)
@@ -40,6 +43,11 @@ namespace VirtualPetCare.Service
             if (!validateResult.IsValid)
             {
                 return CustomResponse<PetDTO>.Fail(StatusCodes.Status400BadRequest,errorMesage);
+            }
+            bool userExist = _userRepository.IsExist(petCreateDTO.UserId);
+            if (!userExist)
+            {
+                return CustomResponse<PetDTO>.Fail(StatusCodes.Status404NotFound,"User Not Found");
             }
             Pet pet = _mapper.Map<Pet>(petCreateDTO);
             _petRepository.Add(pet);
@@ -66,11 +74,6 @@ namespace VirtualPetCare.Service
             return CustomResponse<PetDTO>.Success(StatusCodes.Status200OK, petDTO);
         }
 
-        public bool IsExist(int id)
-        {
-            return _petRepository.IsExist(id);
-        }
-
         public async Task<CustomResponse<NoContent>> Update(int id, PetUpdateDTO petUpdateDTO)
         {
             var validateResult = _updateValidator.Validate(petUpdateDTO);
@@ -80,13 +83,18 @@ namespace VirtualPetCare.Service
             {
                 return CustomResponse<NoContent>.Fail(StatusCodes.Status400BadRequest,errorMesage);
             }
-            bool petExist = IsExist(id);
+            bool petExist = _petRepository.IsExist(id);
             if (!petExist)
             {
                 return CustomResponse<NoContent>.Fail(StatusCodes.Status404NotFound, "Pet Not Found");
             }
-            Pet pet = _mapper.Map<Pet>(petUpdateDTO);
-            pet.Id = id;
+            bool userExist = _userRepository.IsExist(petUpdateDTO.UserId);
+            if (!userExist)
+            {
+                return CustomResponse<NoContent>.Fail(StatusCodes.Status404NotFound, "User Not Found");
+            }
+            Pet pet = _petRepository.GetById(id , false);
+            _mapper.Map(petUpdateDTO, pet);
             _petRepository.Update(pet);
             _unitOfWork.SaveChanges();
             return CustomResponse<NoContent>.Success(StatusCodes.Status200OK);

@@ -17,18 +17,18 @@ namespace VirtualPetCare.Service
     public class TrainingService : ITrainingService
     {
         private readonly ITrainingRepository _trainsRepository;
-        private readonly IPetService _petService;
+        private readonly IPetRepository _petRepository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<TrainingCreateDTO> _validator;
 
-        public TrainingService(ITrainingRepository trainsRepository, IMapper mapper, IUnitOfWork unitOfWork, IPetService petService, IValidator<TrainingCreateDTO> validator)
+        public TrainingService(ITrainingRepository trainsRepository, IMapper mapper, IUnitOfWork unitOfWork, IValidator<TrainingCreateDTO> validator, IPetRepository petRepository)
         {
             _trainsRepository = trainsRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _petService = petService;
             _validator = validator;
+            _petRepository = petRepository;
         }
 
         public async Task<CustomResponse<TrainingDTO>> Add(TrainingCreateDTO trainingCreateDTO)
@@ -40,7 +40,7 @@ namespace VirtualPetCare.Service
             {
                 return CustomResponse<TrainingDTO>.Fail(StatusCodes.Status400BadRequest,errorMesage);
             }
-            bool petExist = _petService.IsExist(trainingCreateDTO.PetId);
+            bool petExist = _petRepository.IsExist(trainingCreateDTO.PetId);
             if (!petExist)
             {
                 return CustomResponse<TrainingDTO>.Fail(StatusCodes.Status404NotFound,"Pet Not Found");
@@ -54,7 +54,7 @@ namespace VirtualPetCare.Service
 
         public async Task<CustomResponse<List<TrainingDTO>>> GetAllByPetId(int petId)
         {
-           bool petExist =  _petService.IsExist(petId);
+           bool petExist =  _petRepository.IsExist(petId);
             if (!petExist)
             {
                 return CustomResponse<List<TrainingDTO>>.Fail(StatusCodes.Status404NotFound,"Pet Not Found");
