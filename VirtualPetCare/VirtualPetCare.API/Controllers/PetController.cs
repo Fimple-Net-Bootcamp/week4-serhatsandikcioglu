@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using VirtualPetCare.Core.DTOs;
 using VirtualPetCare.Service.Interfaces;
+using VirtualPetCare.Shared.Model;
 
 namespace VirtualPetCare.API.Controllers
 {
